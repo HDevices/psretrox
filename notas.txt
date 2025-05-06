@@ -1,0 +1,19 @@
+La función convertVagToAudio (y por lo tanto audioOut, opciones '6' y parte de '1') 
+fallará en tiempo de ejecución debido a la ruta de Windows hardcodeada para vgmstream-cli.
+Este es el principal punto de incompatibilidad que necesita ser corregido para que esa funcionalidad 
+específica trabaje en Linux.
+Se necesitará también que vgmstream-cli (o equivalente) esté instalado.
+La compatibilidad total depende también del código en los otros archivos .h y .cpp del proyecto.
+
+Siguientes Pasos:
+
+Corregir la ruta hardcodeada en convertVagToAudio.
+La forma más simple y común es asumir que el ejecutable está en el PATH:
+
+// En convertVagToAudio:
+
+// std::string vgmstreamPath = "C:/VisualStudioLibraries/vgmstream/vgmstream-cli.exe"; 
+// <-- Eliminar o comentar
+
+std::string command = "vgmstream-cli -o " + outputFilePath + " " + inputFilePath; 
+// <-- Usar solo el nombre del ejecutable
